@@ -121,6 +121,7 @@ async def sort(ctx):
     for i in range(len(catsort)):
         await catsort[i].edit(position=i)
 
+    print(f"Done sorting {ctx.guild.id}")
     await ctx.reply("Done sorting!")
 
 
