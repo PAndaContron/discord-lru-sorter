@@ -97,6 +97,7 @@ async def sort(ctx):
     categories = defaultdict(lambda: [])
 
     for channel in ctx.guild.text_channels:
+        print(f"Adding channel: {channel}")
         last_msg = None
         if channel.last_message_id:
             try:
@@ -109,16 +110,20 @@ async def sort(ctx):
         )
 
     for catlist in categories.values():
+        print(f"Sorting category...")
         catlist.sort(key=itemgetter(1), reverse=True)
         for i in range(len(catlist)):
+            print(f"Moving {catlist[i][0]} to {i}")
             await catlist[i][0].edit(position=i)
 
+    print(f"Sorting categories...")
     catsort = sorted(
         [cat for cat in categories if cat],
         key=lambda cat: categories[cat][0][1],
         reverse=True,
     )
     for i in range(len(catsort)):
+        print(f"Moving {catsort[i]} to {i}")
         await catsort[i].edit(position=i)
 
     print(f"Done sorting {ctx.guild.id}")
