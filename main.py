@@ -97,11 +97,13 @@ async def sort(ctx):
     categories = defaultdict(lambda: [])
 
     for channel in ctx.guild.text_channels:
-        last_msg = (
-            (await channel.fetch_message(channel.last_message_id))
-            if channel.last_message_id
-            else None
-        )
+        last_msg = None
+        if channel.last_message_id:
+            try:
+                last_msg = await channel.fetch_message(channel.last_message_id)
+            except:
+                pass
+
         categories[channel.category].append(
             (channel, (last_msg.created_at if last_msg else datetime.fromtimestamp(0)))
         )
