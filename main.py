@@ -133,8 +133,9 @@ async def sort(ctx):
 @bot.event
 async def on_message(message):
     if message.guild.id in guilds:
-        await message.channel.edit(position=0)
-        if message.channel.category:
+        if message.channel.position != 0:
+            await message.channel.edit(position=0)
+        if message.channel.category and message.channel.category.position != 0:
             await message.channel.category.edit(position=0)
 
     await bot.process_commands(message)
