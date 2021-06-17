@@ -8,6 +8,7 @@ from operator import itemgetter
 
 try:
     import discord
+    from discord import Intents
     from discord.ext.commands import Bot
     import dotenv
 except:
@@ -24,7 +25,7 @@ if "token" not in config or "prefix" not in config:
     print(f"Please run `config.py` to configure the bot.", file=sys.stderr)
     sys.exit(1)
 
-bot = Bot(command_prefix=config["prefix"])
+bot = Bot(command_prefix=config["prefix"], intents=Intents.all())
 
 
 def get_guild_list():
@@ -139,6 +140,12 @@ async def on_message(message):
             await message.channel.category.edit(position=0)
 
     await bot.process_commands(message)
+
+
+@bot.event
+async def on_guild_channel_update(before, after):
+    if after.id == 842947971338338326:
+        await after.edit(name="joycatboard")
 
 
 bot.run(config["token"])
